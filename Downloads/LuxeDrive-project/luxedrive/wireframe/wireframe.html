@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxeDrive — Low Fidelity Wireframe</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #f0f0f0;
+    padding: 40px 20px;
+    color: #222;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: .05em;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 40px;
+  }
+
+  .page-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .screens {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* === WIREFRAME SCREEN WRAPPER === */
+  .screen {
+    background: #fff;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* === shared WF primitives === */
+  .wf-bar      { background: #d8d8d8; }
+  .wf-box      { background: #e0e0e0; border: 1.5px dashed #b0b0b0; border-radius: 2px; }
+  .wf-img      { background: #d0d0d0; border: 1.5px solid #b8b8b8; border-radius: 2px; position: relative; overflow: hidden; }
+  .wf-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 6px, #c0c0c0 6px, #c0c0c0 7px);
+  }
+  .wf-text     { background: #e8e8e8; border-radius: 2px; }
+  .wf-line     { background: #d4d4d4; height: 1px; }
+  .wf-btn      { background: #b0b0b0; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #555; }
+  .wf-btn-o    { background: transparent; border: 1.5px solid #b0b0b0; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #888; }
+  .wf-input    { background: #f4f4f4; border: 1.5px solid #c8c8c8; border-radius: 2px; }
+  .wf-label    { font-size: 8px; color: #aaa; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .wf-heading  { font-size: 10px; font-weight: 700; color: #888; }
+  .wf-small    { font-size: 8px; color: #aaa; }
+  .wf-grid-3   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .wf-grid-2   { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .wf-grid-4   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .cross       { position: absolute; inset: 0; }
+  .cross::before, .cross::after {
+    content: ''; position: absolute; background: #b8b8b8;
+  }
+  .cross::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .cross::after  { top: 50%; left: 0; right: 0; height: 1px; }
+
+  /* ====================== */
+  /* SCREEN 1 — HOMEPAGE    */
+  /* ====================== */
+  #s1-nav {
+    height: 36px;
+    background: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+  }
+  #s1-nav .logo { width: 56px; height: 10px; background: #777; border-radius: 1px; }
+  #s1-nav .links { display: flex; gap: 8px; }
+  #s1-nav .links span { width: 28px; height: 6px; background: #555; border-radius: 1px; }
+  #s1-nav .cta { width: 40px; height: 16px; border: 1px solid #777; border-radius: 1px; }
+
+  #s1-hero {
+    height: 140px;
+    background: #3a3a3a;
+    position: relative;
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  #s1-hero .overlay {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,.1) 8px, rgba(0,0,0,.1) 9px);
+  }
+  #s1-hero .tag { width: 80px; height: 6px; background: #888; border-radius: 1px; z-index: 1; }
+  #s1-hero .h1a { width: 130px; height: 12px; background: #e0e0e0; border-radius: 1px; z-index: 1; }
+  #s1-hero .h1b { width: 100px; height: 12px; background: #e0e0e0; border-radius: 1px; z-index: 1; }
+  #s1-hero .sub { width: 160px; height: 6px; background: #aaa; border-radius: 1px; z-index: 1; }
+  #s1-hero .btns { display: flex; gap: 6px; z-index: 1; }
+  #s1-hero .btn1 { width: 60px; height: 18px; background: #c8a24c; border-radius: 1px; }
+  #s1-hero .btn2 { width: 60px; height: 18px; border: 1px solid #888; border-radius: 1px; }
+  #s1-hero .video-label {
+    position: absolute; top: 6px; right: 8px; z-index: 2;
+    font-size: 7px; color: #aaa; letter-spacing: .08em; font-weight: 700;
+    background: rgba(0,0,0,.3); padding: 2px 5px; border-radius: 2px;
+  }
+
+  #s1-collection { padding: 12px 14px; }
+  #s1-collection .sec-label { width: 40px; height: 5px; background: #c8a24c; margin-bottom: 4px; border-radius: 1px; }
+  #s1-collection .sec-h2 { width: 90px; height: 10px; background: #bbb; margin-bottom: 10px; border-radius: 1px; }
+  #s1-collection .filters { display: flex; gap: 5px; margin-bottom: 10px; }
+  #s1-collection .filters .f { width: 50px; height: 16px; background: #e8e8e8; border: 1px solid #ccc; border-radius: 1px; }
+
+  .card-wf { border: 1.5px solid #d0d0d0; border-radius: 2px; overflow: hidden; }
+  .card-wf .img { height: 52px; background: #d8d8d8; position: relative; }
+  .card-wf .img::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 5px, #c8c8c8 5px, #c8c8c8 6px);
+  }
+  .card-wf .badge { position: absolute; top: 4px; left: 4px; width: 36px; height: 9px; background: rgba(0,0,0,.4); border-radius: 1px; z-index: 1; }
+  .card-wf .body { padding: 6px; }
+  .card-wf .make { width: 30px; height: 4px; background: #ccc; margin-bottom: 3px; border-radius: 1px; }
+  .card-wf .model { width: 55px; height: 7px; background: #bbb; margin-bottom: 5px; border-radius: 1px; }
+  .card-wf .line { height: 1px; background: #e0e0e0; margin-bottom: 4px; }
+  .card-wf .foot { display: flex; justify-content: space-between; align-items: center; }
+  .card-wf .price { width: 40px; height: 7px; background: #c8a24c; opacity: .6; border-radius: 1px; }
+  .card-wf .arrow { width: 14px; height: 5px; background: #ccc; border-radius: 1px; }
+
+  /* ======================== */
+  /* SCREEN 2 — DETAIL PAGE   */
+  /* ======================== */
+  #s2-hero-img { height: 100px; background: #3a3a3a; position: relative; }
+  #s2-hero-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,.1) 8px, rgba(0,0,0,.1) 9px);
+  }
+  #s2-hero-img .back { position: absolute; bottom: -18px; left: 14px; z-index: 2; font-size: 7px; color: #888; letter-spacing: .08em; }
+  #s2-body { padding: 24px 14px 14px; }
+  #s2-body .make { width: 36px; height: 5px; background: #c8a24c; opacity: .6; margin-bottom: 4px; border-radius: 1px; }
+  #s2-body .h1 { width: 120px; height: 14px; background: #bbb; margin-bottom: 4px; border-radius: 1px; }
+  #s2-body .price { width: 70px; height: 10px; background: #c8a24c; opacity: .5; margin-bottom: 10px; border-radius: 1px; }
+  #s2-specs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #d0d0d0; border: 1px solid #d0d0d0; margin-bottom: 10px; }
+  #s2-specs .spec { background: #f0f0f0; padding: 6px; }
+  #s2-specs .k { width: 28px; height: 4px; background: #ccc; margin-bottom: 3px; border-radius: 1px; }
+  #s2-specs .v { width: 36px; height: 8px; background: #b0b0b0; border-radius: 1px; }
+  #s2-desc .line { height: 5px; background: #e0e0e0; margin-bottom: 3px; border-radius: 1px; }
+  #s2-desc .line:last-child { width: 60%; }
+  #s2-actions { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  #s2-actions .dot { width: 6px; height: 6px; border-radius: 50%; background: #5fc28a; }
+  #s2-actions .status { width: 60px; height: 5px; background: #ccc; border-radius: 1px; }
+  #s2-actions .btn { width: 70px; height: 20px; background: #c8a24c; opacity: .7; border-radius: 1px; }
+
+  /* ======================== */
+  /* SCREEN 3 — ADMIN LOGIN   */
+  /* ======================== */
+  #s3-wrap { padding: 30px 40px; background: #f4f4f4; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+  #s3-card { background: #fff; border: 1.5px solid #d8d8d8; padding: 24px 20px; width: 100%; max-width: 220px; }
+  #s3-card .tag { width: 70px; height: 5px; background: #c8a24c; opacity: .6; margin-bottom: 6px; border-radius: 1px; }
+  #s3-card .h2 { width: 110px; height: 12px; background: #bbb; margin-bottom: 4px; border-radius: 1px; }
+  #s3-card .sub { width: 140px; height: 5px; background: #ddd; margin-bottom: 16px; border-radius: 1px; }
+  .form-field { margin-bottom: 12px; }
+  .form-field .lbl { width: 40px; height: 4px; background: #ccc; margin-bottom: 5px; border-radius: 1px; }
+  .form-field .inp { height: 22px; background: #f8f8f8; border: 1.5px solid #d0d0d0; border-radius: 2px; width: 100%; }
+  #s3-card .sbmt { height: 26px; background: #c8a24c; opacity: .7; border-radius: 2px; width: 100%; margin-top: 6px; }
+  #s3-card .hint { margin-top: 12px; padding-top: 10px; border-top: 1px solid #eee; }
+  #s3-card .hint span { display: block; width: 100%; height: 4px; background: #e8e8e8; margin-bottom: 3px; border-radius: 1px; }
+
+  /* ======================== */
+  /* SCREEN 4 — ADMIN DASH    */
+  /* ======================== */
+  #s4-head { padding: 10px 14px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between; }
+  #s4-head .tag { width: 40px; height: 4px; background: #c8a24c; opacity: .6; margin-bottom: 4px; border-radius: 1px; }
+  #s4-head .h2 { width: 90px; height: 10px; background: #bbb; border-radius: 1px; }
+  #s4-head .actions { display: flex; gap: 5px; align-items: center; }
+  #s4-head .add { width: 70px; height: 20px; background: #c8a24c; opacity: .7; border-radius: 1px; }
+  #s4-head .out { width: 50px; height: 20px; border: 1px solid #ccc; border-radius: 1px; }
+  #s4-table { padding: 10px 14px; }
+  .trow-h { display: grid; grid-template-columns: 28px 1fr 32px 44px 36px 44px; gap: 6px; padding: 4px 6px; background: #f0f0f0; margin-bottom: 4px; }
+  .trow-h span { height: 5px; background: #ccc; border-radius: 1px; }
+  .trow { display: grid; grid-template-columns: 28px 1fr 32px 44px 36px 44px; gap: 6px; padding: 6px; border-bottom: 1px solid #eee; align-items: center; }
+  .trow .thumb { height: 22px; background: #d8d8d8; border-radius: 1px; position: relative; overflow: hidden; }
+  .trow .thumb::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 3px, #c8c8c8 3px, #c8c8c8 4px);
+  }
+  .trow .name { height: 6px; background: #ccc; border-radius: 1px; }
+  .trow .year { height: 6px; background: #d8d8d8; border-radius: 1px; }
+  .trow .price { height: 6px; background: #d0d0d0; border-radius: 1px; }
+  .trow .tag-avail { height: 14px; border: 1px solid #5fc28a; background: transparent; border-radius: 1px; }
+  .trow .btns { display: flex; gap: 3px; }
+  .trow .btns span { flex: 1; height: 14px; border: 1px solid #d0d0d0; border-radius: 1px; }
+  .trow .btns span.del { border-color: #e8a0a0; }
+
+  /* annotation */
+  .ann { font-size: 8px; color: #999; padding: 6px 14px; background: #fafafa; border-top: 1px solid #ececec; line-height: 1.5; }
+  .ann b { color: #666; }
+</style>
+</head>
+<body>
+
+<h1>LuxeDrive — Low Fidelity Wireframe</h1>
+<p class="subtitle">Praktijksimulatie Webdeveloper · Marco & Abasin · 2026 &nbsp;|&nbsp; Grijswaarden = layout, geen echte styling</p>
+
+<div class="screens">
+
+  <!-- ===== SCREEN 1: HOMEPAGE ===== -->
+  <div>
+    <div class="page-label">Pagina 1 — Homepage (collectie)</div>
+    <div class="screen">
+
+      <!-- Navbar -->
+      <div id="s1-nav">
+        <div class="logo"></div>
+        <div class="links"><span></span><span></span><span></span></div>
+        <div class="cta"></div>
+      </div>
+
+      <!-- Hero -->
+      <div id="s1-hero">
+        <div class="overlay"></div>
+        <div class="video-label">▶ VIDEO BG</div>
+        <div class="tag"></div>
+        <div class="h1a"></div>
+        <div class="h1b"></div>
+        <div class="sub"></div>
+        <div class="btns">
+          <div class="btn1"></div>
+          <div class="btn2"></div>
+        </div>
+      </div>
+
+      <!-- Collectie sectie -->
+      <div id="s1-collection">
+        <div class="sec-label"></div>
+        <div class="sec-h2"></div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <div class="f"></div>
+          <div class="f"></div>
+          <div class="f"></div>
+        </div>
+
+        <!-- Grid 3 kaarten -->
+        <div class="wf-grid-3">
+          <div class="card-wf">
+            <div class="img"><div class="badge"></div></div>
+            <div class="body">
+              <div class="make"></div><div class="model"></div>
+              <div class="line"></div>
+              <div class="foot"><div class="price"></div><div class="arrow"></div></div>
+            </div>
+          </div>
+          <div class="card-wf">
+            <div class="img"><div class="badge"></div></div>
+            <div class="body">
+              <div class="make"></div><div class="model"></div>
+              <div class="line"></div>
+              <div class="foot"><div class="price"></div><div class="arrow"></div></div>
+            </div>
+          </div>
+          <div class="card-wf">
+            <div class="img"><div class="badge"></div></div>
+            <div class="body">
+              <div class="make"></div><div class="model"></div>
+              <div class="line"></div>
+              <div class="foot"><div class="price"></div><div class="arrow"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <b>Nav:</b> Logo links · Links midden · CTA rechts &nbsp;|&nbsp;
+        <b>Hero:</b> Achtergrondvideo + gradient overlay + H1 + 2 knoppen &nbsp;|&nbsp;
+        <b>Grid:</b> 3 kolommen, kaart = foto + badge + naam + prijs
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 2: DETAIL PAGINA ===== -->
+  <div>
+    <div class="page-label">Pagina 2 — Autodetail</div>
+    <div class="screen">
+
+      <!-- Navbar (herhaald, compact) -->
+      <div id="s1-nav">
+        <div class="logo"></div>
+        <div class="links"><span></span><span></span><span></span></div>
+        <div class="cta"></div>
+      </div>
+
+      <!-- Hero afbeelding -->
+      <div id="s2-hero-img">
+        <div class="back">← Terug naar collectie</div>
+      </div>
+
+      <!-- Body -->
+      <div id="s2-body">
+        <div class="make"></div>
+        <div class="h1"></div>
+        <div class="price"></div>
+
+        <!-- Specs grid 4 kolommen -->
+        <div id="s2-specs">
+          <div class="spec"><div class="k"></div><div class="v"></div></div>
+          <div class="spec"><div class="k"></div><div class="v"></div></div>
+          <div class="spec"><div class="k"></div><div class="v"></div></div>
+          <div class="spec"><div class="k"></div><div class="v"></div></div>
+        </div>
+
+        <!-- Beschrijving -->
+        <div id="s2-desc">
+          <div class="line" style="width:100%"></div>
+          <div class="line" style="width:95%"></div>
+          <div class="line" style="width:100%"></div>
+          <div class="line"></div>
+        </div>
+
+        <!-- Acties -->
+        <div id="s2-actions">
+          <div class="dot"></div>
+          <div class="status"></div>
+          <div class="btn"></div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <b>Hero:</b> Volledige breedte foto met gradient &nbsp;|&nbsp;
+        <b>Specs:</b> 4-koloms grid (jaar, pk, 0–100, topspeed) &nbsp;|&nbsp;
+        <b>CTA:</b> Status-dot + "Interesse tonen" knop
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 3: ADMIN LOGIN ===== -->
+  <div>
+    <div class="page-label">Pagina 3 — Admin login</div>
+    <div class="screen">
+
+      <!-- Navbar -->
+      <div id="s1-nav">
+        <div class="logo"></div>
+        <div class="links"><span></span><span></span><span></span></div>
+        <div class="cta"></div>
+      </div>
+
+      <div id="s3-wrap">
+        <div id="s3-card">
+          <div class="tag"></div>
+          <div class="h2"></div>
+          <div class="sub"></div>
+
+          <div class="form-field">
+            <div class="lbl"></div>
+            <div class="inp"></div>
+          </div>
+          <div class="form-field">
+            <div class="lbl"></div>
+            <div class="inp"></div>
+          </div>
+          <div class="sbmt"></div>
+
+          <div class="hint">
+            <span></span>
+            <span style="width:80%"></span>
+            <span style="width:75%"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <b>Gecentreerd paneel:</b> Label + H2 + omschrijving &nbsp;|&nbsp;
+        <b>Formulier:</b> E-mail + wachtwoord + inlogknop (volledige breedte) &nbsp;|&nbsp;
+        <b>Hint:</b> Demo-inloggegevens zichtbaar onder de form
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 4: ADMIN DASHBOARD ===== -->
+  <div>
+    <div class="page-label">Pagina 4 — Admin dashboard (CRUD)</div>
+    <div class="screen">
+
+      <!-- Navbar -->
+      <div id="s1-nav">
+        <div class="logo"></div>
+        <div class="links"><span></span><span></span><span></span></div>
+        <div class="cta"></div>
+      </div>
+
+      <!-- Dashboard header -->
+      <div id="s4-head">
+        <div>
+          <div class="tag"></div>
+          <div class="h2"></div>
+        </div>
+        <div class="actions">
+          <div class="add"></div>
+          <div class="out"></div>
+        </div>
+      </div>
+
+      <!-- Tabel -->
+      <div id="s4-table">
+        <!-- Header row -->
+        <div class="trow-h">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <!-- Data rows -->
+        <div class="trow">
+          <div class="thumb"></div>
+          <div class="name"></div>
+          <div class="year"></div>
+          <div class="price"></div>
+          <div class="tag-avail"></div>
+          <div class="btns"><span></span><span class="del"></span></div>
+        </div>
+        <div class="trow">
+          <div class="thumb"></div>
+          <div class="name"></div>
+          <div class="year"></div>
+          <div class="price"></div>
+          <div class="tag-avail"></div>
+          <div class="btns"><span></span><span class="del"></span></div>
+        </div>
+        <div class="trow">
+          <div class="thumb"></div>
+          <div class="name" style="width:70%"></div>
+          <div class="year"></div>
+          <div class="price"></div>
+          <div class="tag-avail" style="border-color:#e8a0a0"></div>
+          <div class="btns"><span></span><span class="del"></span></div>
+        </div>
+        <div class="trow">
+          <div class="thumb"></div>
+          <div class="name"></div>
+          <div class="year"></div>
+          <div class="price"></div>
+          <div class="tag-avail"></div>
+          <div class="btns"><span></span><span class="del"></span></div>
+        </div>
+      </div>
+
+      <div class="ann">
+        <b>Header:</b> Titel links · "+ Auto toevoegen" + "Uitloggen" rechts &nbsp;|&nbsp;
+        <b>Tabel:</b> Thumbnail · naam · jaar · prijs · status-badge · bewerk/verwijder &nbsp;|&nbsp;
+        <b>Rood randje</b> = verkochte auto
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Legenda -->
+<div style="max-width:1100px;margin:40px auto 0;padding:20px;background:#fff;border:1.5px solid #ddd;border-radius:4px;">
+  <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:14px;">Legenda</div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:11px;color:#666;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:16px;background:#d8d8d8;border:1px dashed #b0b0b0;"></div>
+      <span>Afbeelding / foto</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:16px;background:#b0b0b0;"></div>
+      <span>Knop (primair)</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:16px;border:1.5px solid #b0b0b0;"></div>
+      <span>Knop (ghost/outline)</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:16px;background:#c8a24c;opacity:.6;"></div>
+      <span>Goud accent (logo, prijs, CTA)</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:32px;height:16px;background:#e8e8e8;border:1.5px solid #ccc;"></div>
+      <span>Invoerveld / filter</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#5fc28a;"></div>
+      <span>Status beschikbaar</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#e8a0a0;"></div>
+      <span>Status verkocht</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
