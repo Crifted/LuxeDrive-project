@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LuxeDrive — Exclusive Automobiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080a;
+    --panel:#0f0f13;
+    --panel-2:#15151b;
+    --line:#23232c;
+    --gold:#c8a24c;
+    --gold-soft:#e3c781;
+    --text:#f4f1ea;
+    --muted:#8a8a93;
+    --red:#a51d20;
+    --red-soft:#c4413f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .serif{font-family:'Cormorant Garamond',serif;}
+  .eyebrow{
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--gold);font-weight:500;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  img{display:block;max-width:100%}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 48px;
+    background:linear-gradient(to bottom, rgba(8,8,10,.92), rgba(8,8,10,0));
+    transition:background .4s, padding .4s, border-color .4s;
+    border-bottom:1px solid transparent;
+  }
+  nav.solid{background:rgba(8,8,10,.96);padding:16px 48px;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:.04em}
+  .logo span{color:var(--gold)}
+  .nav-links{display:flex;gap:40px;align-items:center}
+  .nav-links a{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .25s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{
+    border:1px solid var(--gold);color:var(--gold);
+    padding:9px 20px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    transition:all .3s;
+  }
+  .nav-cta:hover{background:var(--gold);color:#08080a}
+
+  /* HERO */
+  .hero{
+    position:relative;min-height:100vh;display:flex;align-items:flex-end;
+    padding:0 48px 90px;overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(120% 90% at 70% 20%, rgba(200,162,76,.10), transparent 55%),
+      linear-gradient(to top, var(--bg) 8%, rgba(8,8,10,.4) 55%, rgba(8,8,10,.85)),
+      url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2400&auto=format&fit=crop');
+    background-size:cover;background-position:center;
+    transform:scale(1.05);animation:slowzoom 24s ease-in-out infinite alternate;
+  }
+  @keyframes slowzoom{to{transform:scale(1.14)}}
+  .hero-inner{position:relative;z-index:2;max-width:880px}
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(48px,8vw,108px);line-height:.94;font-weight:500;
+    letter-spacing:-.01em;margin:18px 0 24px;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold-soft)}
+  .hero p{font-size:17px;color:#cfcdc6;max-width:520px;line-height:1.7;font-weight:300}
+  .hero-actions{display:flex;gap:18px;margin-top:38px;flex-wrap:wrap}
+  .btn-primary{
+    background:var(--gold);color:#08080a;padding:15px 34px;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+    transition:all .3s;
+  }
+  .btn-primary:hover{background:var(--gold-soft);transform:translateY(-2px)}
+  .btn-ghost{
+    border:1px solid var(--line);padding:15px 34px;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--text);
+    transition:all .3s;
+  }
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .scroll-hint{
+    position:absolute;bottom:36px;right:48px;z-index:2;
+    writing-mode:vertical-rl;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* SECTION HEAD */
+  .section{padding:96px 48px;max-width:1480px;margin:0 auto}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:20px}
+  .section-head h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,56px);font-weight:500;line-height:1;margin-top:14px}
+  .count-pill{font-size:13px;color:var(--muted);letter-spacing:.04em}
+  .count-pill b{color:var(--gold);font-weight:600}
+
+  /* FILTERS */
+  .filters{
+    display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+    padding:20px 0 36px;border-top:1px solid var(--line);margin-bottom:8px;
+  }
+  .filters .field{display:flex;flex-direction:column;gap:7px}
+  .filters label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  select,input[type=text],input[type=number],input[type=password]{
+    background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    padding:11px 14px;font-family:inherit;font-size:14px;min-width:150px;
+    transition:border-color .25s;
+  }
+  select:focus,input:focus{outline:none;border-color:var(--gold)}
+  .filter-reset{margin-left:auto;align-self:flex-end;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;transition:color .25s}
+  .filter-reset:hover{color:var(--gold)}
+
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);
+    overflow:hidden;cursor:pointer;position:relative;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s;
+  }
+  .card:hover{transform:translateY(-6px);border-color:#3a3a44}
+  .card-img{aspect-ratio:16/10;overflow:hidden;position:relative;background:#1a1a20}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .card-img img{transform:scale(1.07)}
+  .badge{
+    position:absolute;top:14px;left:14px;z-index:2;
+    background:rgba(8,8,10,.8);backdrop-filter:blur(6px);
+    border:1px solid var(--line);padding:6px 12px;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);
+  }
+  .badge.sold{color:var(--red-soft);border-color:rgba(196,65,63,.4)}
+  .card-body{padding:22px 24px 26px}
+  .card-make{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .card-name{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:600;line-height:1.05;margin:6px 0 16px}
+  .card-specs{display:flex;gap:18px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:18px}
+  .card-specs div{display:flex;flex-direction:column;gap:3px}
+  .card-specs .k{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .card-specs .v{font-size:13px;color:var(--text)}
+  .card-foot{display:flex;align-items:center;justify-content:space-between}
+  .price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold-soft)}
+  .card-link{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:color .25s}
+  .card:hover .card-link{color:var(--gold)}
+  .empty{grid-column:1/-1;text-align:center;padding:80px 0;color:var(--muted)}
+  .empty .serif{font-size:30px;color:var(--text);margin-bottom:10px}
+
+  /* DETAIL OVERLAY */
+  .overlay{
+    position:fixed;inset:0;z-index:200;background:rgba(4,4,6,.86);
+    backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;
+    overflow-y:auto;padding:40px 20px;
+  }
+  .overlay.open{display:flex}
+  .detail{
+    background:var(--panel);border:1px solid var(--line);max-width:1100px;width:100%;
+    animation:rise .5s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  .detail-hero{position:relative;aspect-ratio:16/8;overflow:hidden;background:#1a1a20}
+  .detail-hero img{width:100%;height:100%;object-fit:cover}
+  .detail-close{
+    position:absolute;top:18px;right:18px;z-index:3;width:44px;height:44px;
+    background:rgba(8,8,10,.7);border:1px solid var(--line);border-radius:50%;
+    font-size:20px;color:var(--text);display:grid;place-items:center;transition:all .25s;
+  }
+  .detail-close:hover{background:var(--gold);color:#08080a}
+  .detail-grad{position:absolute;inset:0;background:linear-gradient(to top,var(--panel),transparent 45%)}
+  .detail-body{padding:0 48px 48px;margin-top:-60px;position:relative;z-index:2}
+  .detail-make{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  .detail-name{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,68px);font-weight:600;line-height:1;margin:10px 0 8px}
+  .detail-price{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold-soft);margin-bottom:32px}
+  .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:36px}
+  .spec-grid div{background:var(--panel);padding:22px 20px}
+  .spec-grid .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .spec-grid .v{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600}
+  .detail-desc{font-size:16px;line-height:1.8;color:#cfcdc6;max-width:720px;margin-bottom:36px;font-weight:300}
+  .detail-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .stock{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#3ca06a}
+  .dot.sold{background:var(--red-soft)}
+
+  /* INTEREST / CONTACT */
+  .interest-form{margin-top:24px;display:none;gap:14px;flex-wrap:wrap;align-items:flex-end;border-top:1px solid var(--line);padding-top:28px}
+  .interest-form.open{display:flex}
+  .interest-form .field{display:flex;flex-direction:column;gap:7px}
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--gold);color:#08080a;padding:15px 28px;font-size:13px;letter-spacing:.08em;
+    font-weight:500;z-index:400;opacity:0;transition:all .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  /* ADMIN */
+  .admin-login{max-width:420px;margin:0 auto}
+  .admin-login .panel{background:var(--panel);border:1px solid var(--line);padding:48px 40px}
+  .admin-login h2{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;margin:12px 0 6px}
+  .admin-login p{color:var(--muted);font-size:14px;margin-bottom:30px}
+  .admin-login .field{margin-bottom:18px}
+  .admin-login label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .admin-login input{width:100%}
+  .admin-login .btn-primary{width:100%;text-align:center;margin-top:10px}
+  .login-err{color:var(--red-soft);font-size:13px;margin-top:14px;min-height:18px}
+  .login-hint{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.7}
+  .login-hint code{color:var(--gold-soft);background:var(--panel-2);padding:2px 7px;font-size:12px}
+
+  .admin-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:36px}
+  .admin-bar .who{font-size:13px;color:var(--muted)}
+  .admin-bar .who b{color:var(--gold-soft);font-weight:600}
+  .admin-table{width:100%;border-collapse:collapse;border:1px solid var(--line)}
+  .admin-table th,.admin-table td{text-align:left;padding:16px 18px;border-bottom:1px solid var(--line);font-size:14px}
+  .admin-table th{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);background:var(--panel-2)}
+  .admin-table tr:last-child td{border-bottom:none}
+  .admin-table tbody tr{transition:background .2s}
+  .admin-table tbody tr:hover{background:var(--panel-2)}
+  .thumb{width:64px;height:40px;object-fit:cover;border:1px solid var(--line)}
+  .tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--line);color:var(--muted)}
+  .tag.avail{color:#5fc28a;border-color:rgba(95,194,138,.35)}
+  .tag.sold{color:var(--red-soft);border-color:rgba(196,65,63,.35)}
+  .row-actions{display:flex;gap:10px}
+  .icon-btn{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:7px 14px;transition:all .25s}
+  .icon-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .icon-btn.del:hover{border-color:var(--red-soft);color:var(--red-soft)}
+
+  /* MODAL FORM (add/edit) */
+  .form-modal{display:none;position:fixed;inset:0;z-index:300;background:rgba(4,4,6,.86);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px}
+  .form-modal.open{display:flex}
+  .form-card{background:var(--panel);border:1px solid var(--line);max-width:720px;width:100%;padding:40px;animation:rise .4s cubic-bezier(.2,.8,.2,1)}
+  .form-card h3{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;margin-bottom:28px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .form-grid .field{display:flex;flex-direction:column;gap:8px}
+  .form-grid .field.full{grid-column:1/-1}
+  .form-grid label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .form-grid input,.form-grid select,.form-grid textarea{width:100%}
+  .form-grid textarea{background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:11px 14px;font-family:inherit;font-size:14px;resize:vertical;min-height:90px}
+  .form-grid textarea:focus{outline:none;border-color:var(--gold)}
+  .form-foot{display:flex;gap:14px;justify-content:flex-end;margin-top:30px}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:60px 48px 40px;margin-top:60px}
+  .foot-inner{max-width:1480px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px}
+  .foot-inner .logo{margin-bottom:14px}
+  .foot-col h4{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .foot-col a{display:block;font-size:14px;color:#cfcdc6;margin-bottom:10px;transition:color .25s}
+  .foot-col a:hover{color:var(--gold)}
+  .foot-bottom{max-width:1480px;margin:40px auto 0;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted)}
+
+  .view{display:none}
+  .view.active{display:block}
+
+  @media(max-width:1024px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .spec-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:680px){
+    nav{padding:16px 20px}
+    .nav-links{gap:18px}
+    .nav-links a:not(.nav-cta){display:none}
+    .hero{padding:0 20px 70px}
+    .section{padding:64px 20px}
+    .grid{grid-template-columns:1fr}
+    .detail-body{padding:0 24px 36px}
+    .spec-grid{grid-template-columns:1fr 1fr}
+    .form-grid{grid-template-columns:1fr}
+    footer{padding:48px 20px 30px}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="logo" onclick="go('home');return false">Luxe<span>Drive</span></a>
+  <div class="nav-links">
+    <a href="#" onclick="go('home');return false">Collectie</a>
+    <a href="#collection" onclick="go('home')">Aanbod</a>
+    <a href="#about" onclick="go('home')">Atelier</a>
+    <a href="#" class="nav-cta" onclick="go('admin');return false">Admin</a>
+  </div>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div id="view-home" class="view active">
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="eyebrow">Curated since 2026 · Nederland</div>
+      <h1 class="serif">Niet zomaar een auto.<br>Een <em>statement.</em></h1>
+      <p>Een persoonlijk geselecteerde collectie van de meest begeerde hyper- en supercars ter wereld. Elk exemplaar gecontroleerd, gedocumenteerd en klaar voor zijn volgende eigenaar.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})">Bekijk collectie</button>
+        <button class="btn-ghost" onclick="go('admin')">Verkoop jouw auto</button>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </header>
+
+  <section class="section" id="collection">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">De collectie</div>
+        <h2 class="serif">Beschikbaar nu</h2>
+      </div>
+      <div class="count-pill"><b id="count">0</b> automobielen in voorraad</div>
+    </div>
+
+    <div class="filters">
+      <div class="field">
+        <label>Merk</label>
+        <select id="f-make" onchange="render()"><option value="">Alle merken</option></select>
+      </div>
+      <div class="field">
+        <label>Prijsklasse</label>
+        <select id="f-price" onchange="render()">
+          <option value="">Alle prijzen</option>
+          <option value="0-1500000">tot € 1,5M</option>
+          <option value="1500000-3000000">€ 1,5M – 3M</option>
+          <option value="3000000-99000000">€ 3M+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Bouwjaar vanaf</label>
+        <select id="f-year" onchange="render()"><option value="">Alle jaren</option></select>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="f-status" onchange="render()">
+          <option value="">Alles</option>
+          <option value="available">Beschikbaar</option>
+          <option value="sold">Verkocht</option>
+        </select>
+      </div>
+      <button class="filter-reset" onclick="resetFilters()">Filters wissen ×</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="section" id="about" style="border-top:1px solid var(--line)">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Het atelier</div>
+        <h2 class="serif">Vakmanschap in elke transactie</h2>
+      </div>
+    </div>
+    <p style="max-width:680px;font-size:17px;line-height:1.8;color:#cfcdc6;font-weight:300">
+      LuxeDrive bemiddelt in de zeldzaamste automobielen ter wereld. Wij combineren een discrete, persoonlijke aanpak met volledige transparantie: elke auto wordt onafhankelijk gekeurd, de volledige historie wordt vastgelegd en elke koper krijgt een toegewijde adviseur. Geen ruis. Alleen het beste.
+    </p>
+  </section>
+</div>
+
+<!-- ===== ADMIN ===== -->
+<div id="view-admin" class="view">
+  <section class="section" style="padding-top:140px">
+
+    <!-- LOGIN -->
+    <div id="admin-login" class="admin-login">
+      <div class="panel">
+        <div class="eyebrow">Beveiligde toegang</div>
+        <h2 class="serif">Admin portaal</h2>
+        <p>Log in om de collectie te beheren.</p>
+        <div class="field">
+          <label>E-mailadres</label>
+          <input type="text" id="login-email" placeholder="admin@luxedrive.nl" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Wachtwoord</label>
+          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Inloggen</button>
+        <div class="login-err" id="login-err"></div>
+        <div class="login-hint">
+          Demo-inloggegevens:<br>
+          E-mail <code>admin@luxedrive.nl</code><br>
+          Wachtwoord <code>luxedrive2026</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="admin-dash" style="display:none">
+      <div class="admin-bar">
+        <div>
+          <div class="eyebrow">Beheer</div>
+          <h2 class="serif" style="font-size:46px;font-weight:600;margin-top:10px">Collectie beheren</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px">
+          <span class="who">Ingelogd als <b>admin@luxedrive.nl</b></span>
+          <button class="btn-primary" onclick="openForm()">+ Auto toevoegen</button>
+          <button class="btn-ghost" onclick="doLogout()">Uitloggen</button>
+        </div>
+      </div>
+      <table class="admin-table">
+        <thead>
+          <tr><th></th><th>Auto</th><th>Jaar</th><th>Prijs</th><th>Status</th><th style="text-align:right">Acties</th></tr>
+        </thead>
+        <tbody id="admin-rows"></tbody>
+      </table>
+    </div>
+
+  </section>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeDetail()">
+  <div class="detail" id="detail"></div>
+</div>
+
+<!-- FORM MODAL -->
+<div class="form-modal" id="formModal" onclick="if(event.target===this)closeForm()">
+  <div class="form-card">
+    <h3 class="serif" id="form-title">Auto toevoegen</h3>
+    <div class="form-grid">
+      <div class="field"><label>Merk</label><input type="text" id="form-make" placeholder="Ferrari"></div>
+      <div class="field"><label>Model</label><input type="text" id="form-model" placeholder="SF90 Stradale"></div>
+      <div class="field"><label>Bouwjaar</label><input type="number" id="form-year" placeholder="2024"></div>
+      <div class="field"><label>Prijs (€)</label><input type="number" id="form-price" placeholder="625000"></div>
+      <div class="field"><label>Vermogen</label><input type="text" id="form-power" placeholder="1000 pk"></div>
+      <div class="field"><label>0–100 km/u</label><input type="text" id="form-accel" placeholder="2,5 s"></div>
+      <div class="field"><label>Topsnelheid</label><input type="text" id="form-topspeed" placeholder="340 km/u"></div>
+      <div class="field"><label>Status</label><select id="form-status"><option value="available">Beschikbaar</option><option value="sold">Verkocht</option></select></div>
+      <div class="field full"><label>Afbeelding URL</label><input type="text" id="form-image" placeholder="https://..."></div>
+      <div class="field full"><label>Omschrijving</label><textarea id="form-desc" placeholder="Korte, exclusieve omschrijving..."></textarea></div>
+    </div>
+    <div class="login-err" id="form-err" style="min-height:0"></div>
+    <div class="form-foot">
+      <button class="btn-ghost" onclick="closeForm()">Annuleren</button>
+      <button class="btn-primary" id="form-save" onclick="saveForm()">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <a href="#" class="logo" onclick="go('home');return false">Luxe<span>Drive</span></a>
+      <p style="color:var(--muted);font-size:14px;max-width:240px;line-height:1.6">Exclusieve automobielen, met zorg geselecteerd.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Navigatie</h4>
+      <a href="#collection" onclick="go('home')">Collectie</a>
+      <a href="#about" onclick="go('home')">Atelier</a>
+      <a href="#" onclick="go('admin');return false">Admin portaal</a>
+    </div>
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@luxedrive.nl">info@luxedrive.nl</a>
+      <a href="tel:+31612345678">+31 6 1234 5678</a>
+      <a href="#">Tilburg, Nederland</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 LuxeDrive — Marco &amp; Abasin · Praktijksimulatie Yonder</span>
+    <span>Gebouwd met Next.js · Laravel · MySQL</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   LuxeDrive — standalone build
+   Data persists in localStorage when opened as a local file.
+   This mirrors the real Laravel/MySQL backend (Car resource).
+   ============================================================ */
+
+const SEED = [
+  {id:1, make:"Bugatti", model:"Chiron Super Sport", year:2023, price:3850000, power:"1600 pk", accel:"2,4 s", topspeed:"440 km/u", status:"available",
+   image:"https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1600&auto=format&fit=crop",
+   description:"Het absolute toppunt van Franse ingenieurskunst. Een 8.0L quad-turbo W16 die 1600 pk levert, ingepakt in een carrosserie die kunst en snelheid verenigt. Eén van slechts enkele exemplaren in deze specificatie."},
+  {id:2, make:"Ferrari", model:"SF90 Stradale", year:2024, price:625000, power:"1000 pk", accel:"2,5 s", topspeed:"340 km/u", status:"available",
+   image:"https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=1600&auto=format&fit=crop",
+   description:"Ferrari's eerste plug-in hybride supercar. Een V8 gecombineerd met drie elektromotoren voor 1000 pk en verbluffende wendbaarheid. De toekomst van Maranello, vandaag te rijden."},
+  {id:3, make:"Lamborghini", model:"Revuelto", year:2024, price:540000, power:"1015 pk", accel:"2,5 s", topspeed:"350 km/u", status:"available",
+   image:"https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1600&auto=format&fit=crop",
+   description:"De opvolger van de Aventador. Een nieuwe V12 hybride-aandrijflijn die theater en technologie samenbrengt. Brute kracht met de scherpste lijnen die Sant'Agata ooit tekende."},
+  {id:4, make:"McLaren", model:"765LT", year:2022, price:415000, power:"765 pk", accel:"2,8 s", topspeed:"330 km/u", status:"sold",
+   image:"https://images.unsplash.com/photo-1621135802920-133df287f89c?q=80&w=1600&auto=format&fit=crop",
+   description:"Longtail-filosofie in zijn puurste vorm. Geobsedeerd met gewicht en aerodynamica. Een trackday-instrument dat op de openbare weg net zo thuis is."},
+  {id:5, make:"Koenigsegg", model:"Jesko Absolut", year:2023, price:3200000, power:"1600 pk", accel:"2,5 s", topspeed:"480+ km/u", status:"available",
+   image:"https://images.unsplash.com/photo-1635073908681-b4dfd1bca4a8?q=80&w=1600&auto=format&fit=crop",
+   description:"Ontworpen om de snelste productieauto ooit te zijn. Zweedse precisie zonder compromis. De Absolut is geen trackcar — het is een streven naar de absolute grens van snelheid."},
+  {id:6, make:"Pagani", model:"Huayra Roadster BC", year:2021, price:3500000, power:"802 pk", accel:"2,8 s", topspeed:"383 km/u", status:"available",
+   image:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop",
+   description:"Een rijdend kunstwerk uit Modena. Elk paneel, elke schroef met de hand afgewerkt. De Huayra BC Roadster is rolling sculpture — zeldzamer dan zeldzaam."},
+  {id:7, make:"Ferrari", model:"812 Competizione", year:2023, price:780000, power:"830 pk", accel:"2,85 s", topspeed:"340 km/u", status:"available",
+   image:"https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1600&auto=format&fit=crop",
+   description:"De laatste, meest extreme V12 zonder turbo of hybride. Een eerbetoon aan de zuivere Ferrari-ervaring. 9500 toeren puur mechanisch genot."},
+  {id:8, make:"Lamborghini", model:"Huracán STO", year:2022, price:360000, power:"640 pk", accel:"3,0 s", topspeed:"310 km/u", status:"sold",
+   image:"https://images.unsplash.com/photo-1571607388263-1044f9ea01dd?q=80&w=1600&auto=format&fit=crop",
+   description:"Super Trofeo Omologata — racetechnologie voor de straat. Geboren op het circuit, gehomologeerd voor de weg. Het scherpst mogelijke Huracán-rijgevoel."},
+];
+
+const ADMIN = { email:"admin@luxedrive.nl", password:"luxedrive2026" };
+const KEY = "luxedrive_cars_v1";
+const SESSION = "luxedrive_session_v1";
+
+/* storage with graceful fallback (works as local file; degrades in sandbox) */
+let memCars = null, memSession = false;
+function loadCars(){
+  try{ const r = localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){}
+  if(memCars) return memCars;
+  return JSON.parse(JSON.stringify(SEED));
+}
+function saveCars(cars){
+  memCars = cars;
+  try{ localStorage.setItem(KEY, JSON.stringify(cars)); }catch(e){}
+}
+function isLoggedIn(){
+  try{ if(localStorage.getItem(SESSION)==="1") return true; }catch(e){}
+  return memSession;
+}
+function setSession(v){
+  memSession = v;
+  try{ v ? localStorage.setItem(SESSION,"1") : localStorage.removeItem(SESSION); }catch(e){}
+}
+
+let cars = loadCars();
+let editingId = null;
+
+const euro = n => "€ " + Number(n).toLocaleString("nl-NL");
+
+/* ---------- ROUTING ---------- */
+function go(view){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById("view-"+view).classList.add("active");
+  window.scrollTo({top:0});
+  if(view==="admin") renderAdmin();
+}
+
+/* ---------- NAV SCROLL ---------- */
+window.addEventListener("scroll",()=>{
+  document.getElementById("nav").classList.toggle("solid", window.scrollY>40);
+});
+
+/* ---------- FILTER OPTIONS ---------- */
+function buildFilters(){
+  const makes = [...new Set(cars.map(c=>c.make))].sort();
+  const years = [...new Set(cars.map(c=>c.year))].sort((a,b)=>b-a);
+  const mk = document.getElementById("f-make");
+  const yr = document.getElementById("f-year");
+  mk.innerHTML = '<option value="">Alle merken</option>' + makes.map(m=>`<option>${m}</option>`).join("");
+  yr.innerHTML = '<option value="">Alle jaren</option>' + years.map(y=>`<option>${y}</option>`).join("");
+}
+function resetFilters(){
+  ["f-make","f-price","f-year","f-status"].forEach(id=>document.getElementById(id).value="");
+  render();
+}
+
+/* ---------- RENDER GRID ---------- */
+function render(){
+  const make = document.getElementById("f-make").value;
+  const price = document.getElementById("f-price").value;
+  const year = document.getElementById("f-year").value;
+  const status = document.getElementById("f-status").value;
+
+  let list = cars.slice();
+  if(make) list = list.filter(c=>c.make===make);
+  if(year) list = list.filter(c=>String(c.year)===year);
+  if(status) list = list.filter(c=>c.status===status);
+  if(price){ const [lo,hi]=price.split("-").map(Number); list = list.filter(c=>c.price>=lo && c.price<=hi); }
+
+  const grid = document.getElementById("grid");
+  document.getElementById("count").textContent = cars.filter(c=>c.status==="available").length;
+
+  if(!list.length){
+    grid.innerHTML = `<div class="empty"><div class="serif">Geen automobielen gevonden</div><p>Pas je filters aan om de volledige collectie te zien.</p></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(c=>`
+    <article class="card" onclick="openDetail(${c.id})">
+      <div class="card-img">
+        <span class="badge ${c.status==='sold'?'sold':''}">${c.status==='sold'?'Verkocht':'Beschikbaar'}</span>
+        <img src="${c.image}" alt="${c.make} ${c.model}" loading="lazy"
+             onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop'">
+      </div>
+      <div class="card-body">
+        <div class="card-make">${c.make}</div>
+        <div class="card-name serif">${c.model}</div>
+        <div class="card-specs">
+          <div><span class="k">Jaar</span><span class="v">${c.year}</span></div>
+          <div><span class="k">Vermogen</span><span class="v">${c.power}</span></div>
+          <div><span class="k">0–100</span><span class="v">${c.accel}</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price serif">${euro(c.price)}</span>
+          <span class="card-link">Bekijk →</span>
+        </div>
+      </div>
+    </article>`).join("");
+}
+
+/* ---------- DETAIL ---------- */
+function openDetail(id){
+  const c = cars.find(x=>x.id===id); if(!c) return;
+  document.getElementById("detail").innerHTML = `
+    <div class="detail-hero">
+      <button class="detail-close" onclick="closeDetail()">×</button>
+      <img src="${c.image}" alt="${c.make} ${c.model}"
+           onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop'">
+      <div class="detail-grad"></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-make">${c.make}</div>
+      <h2 class="detail-name serif">${c.model}</h2>
+      <div class="detail-price serif">${euro(c.price)}</div>
+      <div class="spec-grid">
+        <div><div class="k">Bouwjaar</div><div class="v serif">${c.year}</div></div>
+        <div><div class="k">Vermogen</div><div class="v serif">${c.power}</div></div>
+        <div><div class="k">0–100 km/u</div><div class="v serif">${c.accel}</div></div>
+        <div><div class="k">Topsnelheid</div><div class="v serif">${c.topspeed}</div></div>
+      </div>
+      <p class="detail-desc">${c.description}</p>
+      <div class="detail-actions">
+        <span class="stock"><span class="dot ${c.status==='sold'?'sold':''}"></span>${c.status==='sold'?'Verkocht':'Direct beschikbaar'}</span>
+        ${c.status!=='sold' ? `<button class="btn-primary" onclick="toggleInterest()">Interesse tonen</button>` : ''}
+      </div>
+      <div class="interest-form" id="interestForm">
+        <div class="field"><label style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Naam</label><input type="text" id="int-name" placeholder="Jouw naam"></div>
+        <div class="field"><label style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">E-mail</label><input type="text" id="int-email" placeholder="jij@email.nl"></div>
+        <button class="btn-primary" onclick="sendInterest('${c.make} ${c.model}')">Versturen</button>
+      </div>
+    </div>`;
+  document.getElementById("overlay").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeDetail(){ document.getElementById("overlay").classList.remove("open"); document.body.style.overflow=""; }
+function toggleInterest(){ document.getElementById("interestForm").classList.toggle("open"); }
+function sendInterest(car){
+  const name = document.getElementById("int-name").value.trim();
+  const email = document.getElementById("int-email").value.trim();
+  if(!name||!email){ toast("Vul je naam en e-mail in"); return; }
+  closeDetail();
+  toast("Bedankt "+name+". We nemen contact op over de "+car+".");
+}
+
+/* ---------- ADMIN AUTH ---------- */
+function renderAdmin(){
+  const logged = isLoggedIn();
+  document.getElementById("admin-login").style.display = logged?"none":"block";
+  document.getElementById("admin-dash").style.display = logged?"block":"none";
+  if(logged) renderRows();
+}
+function doLogin(){
+  const email = document.getElementById("login-email").value.trim().toLowerCase();
+  const pass = document.getElementById("login-pass").value;
+  const err = document.getElementById("login-err");
+  if(email===ADMIN.email && pass===ADMIN.password){
+    setSession(true); err.textContent="";
+    document.getElementById("login-pass").value="";
+    renderAdmin();
+    toast("Welkom terug.");
+  }else{
+    err.textContent = "Onjuiste inloggegevens. Probeer opnieuw.";
+  }
+}
+function doLogout(){ setSession(false); renderAdmin(); toast("Uitgelogd."); }
+
+/* ---------- ADMIN CRUD ---------- */
+function renderRows(){
+  const tb = document.getElementById("admin-rows");
+  if(!cars.length){ tb.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:40px">Nog geen auto's. Voeg er één toe.</td></tr>`; return; }
+  tb.innerHTML = cars.map(c=>`
+    <tr>
+      <td><img class="thumb" src="${c.image}" onerror="this.style.opacity=.3"></td>
+      <td><b style="font-weight:500">${c.make}</b> ${c.model}</td>
+      <td>${c.year}</td>
+      <td>${euro(c.price)}</td>
+      <td><span class="tag ${c.status==='sold'?'sold':'avail'}">${c.status==='sold'?'Verkocht':'Beschikbaar'}</span></td>
+      <td><div class="row-actions" style="justify-content:flex-end">
+        <button class="icon-btn" onclick="openForm(${c.id})">Bewerk</button>
+        <button class="icon-btn del" onclick="deleteCar(${c.id})">Verwijder</button>
+      </div></td>
+    </tr>`).join("");
+}
+function openForm(id){
+  editingId = id ?? null;
+  document.getElementById("form-err").textContent="";
+  const t = document.getElementById("form-title");
+  if(editingId){
+    const c = cars.find(x=>x.id===editingId);
+    t.textContent = "Auto bewerken";
+    document.getElementById("form-make").value=c.make;
+    document.getElementById("form-model").value=c.model;
+    document.getElementById("form-year").value=c.year;
+    document.getElementById("form-price").value=c.price;
+    document.getElementById("form-power").value=c.power;
+    document.getElementById("form-accel").value=c.accel;
+    document.getElementById("form-topspeed").value=c.topspeed;
+    document.getElementById("form-status").value=c.status;
+    document.getElementById("form-image").value=c.image;
+    document.getElementById("form-desc").value=c.description;
+  }else{
+    t.textContent = "Auto toevoegen";
+    ["make","model","year","price","power","accel","topspeed","image","desc"].forEach(f=>document.getElementById("form-"+f).value="");
+    document.getElementById("form-status").value="available";
+  }
+  document.getElementById("formModal").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeForm(){ document.getElementById("formModal").classList.remove("open"); document.body.style.overflow=""; }
+function saveForm(){
+  const g = f => document.getElementById("form-"+f).value.trim();
+  const make=g("make"), model=g("model"), year=g("year"), price=g("price");
+  if(!make||!model||!year||!price){ document.getElementById("form-err").textContent="Merk, model, jaar en prijs zijn verplicht."; return; }
+  const data = {
+    make, model, year:Number(year), price:Number(price),
+    power:g("power")||"—", accel:g("accel")||"—", topspeed:g("topspeed")||"—",
+    status:document.getElementById("form-status").value,
+    image:g("image")||"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop",
+    description:g("desc")||"Exclusief exemplaar uit de LuxeDrive-collectie."
+  };
+  if(editingId){
+    cars = cars.map(c=>c.id===editingId ? {...c,...data} : c);
+    toast("Auto bijgewerkt.");
+  }else{
+    const newId = cars.length ? Math.max(...cars.map(c=>c.id))+1 : 1;
+    cars.push({id:newId, ...data});
+    toast("Auto toegevoegd aan de collectie.");
+  }
+  saveCars(cars);
+  closeForm(); renderRows(); buildFilters(); render();
+}
+function deleteCar(id){
+  const c = cars.find(x=>x.id===id);
+  if(!confirm(`Weet je zeker dat je de ${c.make} ${c.model} wilt verwijderen?`)) return;
+  cars = cars.filter(c=>c.id!==id);
+  saveCars(cars);
+  renderRows(); buildFilters(); render();
+  toast("Auto verwijderd.");
+}
+
+/* ---------- TOAST ---------- */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove("show"), 3200);
+}
+
+/* ---------- INIT ---------- */
+buildFilters();
+render();
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeDetail(); closeForm(); }});
+</script>
+</body>
+</html>
