@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LuxeDrive — Homepage</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+/* HERO */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; align-items:flex-end;
+  padding:0 48px 100px; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background:url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2400&auto=format&fit=crop') center/cover;
+  transform:scale(1.04);
+}
+.hero-overlay {
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(to top,var(--bg) 5%,rgba(8,8,10,.42) 48%,rgba(8,8,10,.72)),
+    radial-gradient(110% 80% at 72% 14%,rgba(200,162,76,.13),transparent 55%);
+}
+.hero-inner { position:relative; z-index:2; max-width:980px; }
+.hero-inner h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(54px,9vw,116px); line-height:.91; font-weight:500;
+  letter-spacing:-.01em; margin:20px 0 28px;
+}
+.hero-inner h1 em { font-style:italic; color:var(--gold-soft); }
+.hero-inner p { font-size:18px; color:#d6d3ca; max-width:540px; line-height:1.75; }
+.hero-actions { display:flex; gap:18px; margin-top:42px; }
+.hero-meta {
+  position:absolute; right:48px; bottom:100px; z-index:2;
+  display:flex; flex-direction:column; gap:28px; text-align:right;
+}
+.hero-meta .hm { border-right:2px solid var(--gold); padding-right:18px; }
+.hero-meta .hm b { display:block; font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:600; }
+.hero-meta .hm span { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+.scroll-line {
+  position:absolute; bottom:0; left:50%; width:1px; height:80px;
+  background:linear-gradient(to bottom,transparent,var(--gold)); z-index:2;
+}
+
+/* MARQUEE */
+.marquee { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:24px 0; overflow:hidden; white-space:nowrap; background:var(--panel); }
+.marquee-track { display:inline-flex; gap:0; }
+.marquee-track span { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:500; color:var(--muted); margin:0 40px; letter-spacing:.06em; }
+.marquee-track span i { font-style:normal; color:var(--gold); margin-right:40px; font-size:14px; vertical-align:middle; }
+
+/* STATS */
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+.stats > div { background:var(--bg); padding:46px 36px; }
+.stats b { display:block; font-family:'Cormorant Garamond',serif; font-size:clamp(44px,5vw,64px); font-weight:600; color:var(--gold-soft); line-height:1; }
+.stats span { display:block; margin-top:12px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+
+/* FEATURED */
+.feature-row { display:grid; grid-template-columns:1.25fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:56px; }
+.feature-img { position:relative; overflow:hidden; min-height:460px; background:#1a1a20; }
+.feature-img img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .9s cubic-bezier(.2,.8,.2,1); }
+.feature-row:hover .feature-img img { transform:scale(1.06); }
+.feature-img::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(8,8,10,.4) 0%,rgba(8,8,10,0) 50%); }
+.feature-info { background:var(--panel); padding:56px 52px; display:flex; flex-direction:column; justify-content:center; }
+.feature-info h3 { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,4vw,52px); font-weight:600; line-height:1; margin:14px 0 18px; }
+.feature-info p { color:#cfcdc6; line-height:1.8; font-size:15px; margin-bottom:28px; }
+.feature-specs { display:flex; gap:30px; margin-bottom:32px; }
+.feature-specs div b { display:block; font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; }
+.feature-specs div span { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+
+/* CARDS */
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.card { background:var(--panel); border:1px solid var(--line); overflow:hidden; cursor:pointer; transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .45s,box-shadow .45s; }
+.card:hover { transform:translateY(-8px); border-color:#3a3a44; box-shadow:0 30px 60px rgba(0,0,0,.5); }
+.card-img { aspect-ratio:16/10; overflow:hidden; position:relative; background:#1a1a20; }
+.card-img img { width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.2,.8,.2,1); }
+.card:hover .card-img img { transform:scale(1.08); }
+.badge { position:absolute; top:14px; left:14px; background:rgba(8,8,10,.82); backdrop-filter:blur(6px); border:1px solid var(--line); padding:6px 12px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-soft); z-index:2; }
+.badge.sold { color:var(--red-soft); }
+.card-body { padding:22px 24px 26px; }
+.card-make { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+.card-name { font-family:'Cormorant Garamond',serif; font-size:27px; font-weight:600; margin:6px 0 16px; }
+.card-foot { display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--line); padding-top:16px; }
+.price { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:var(--gold-soft); }
+.card-link { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+
+/* FILTERS */
+.filters { display:flex; gap:14px; flex-wrap:wrap; padding:18px 0 32px; border-top:1px solid var(--line); }
+.filters select { background:var(--panel-2); border:1px solid var(--line); color:var(--text); padding:10px 14px; font-family:'Inter',sans-serif; font-size:13px; min-width:160px; }
+
+/* SPLIT */
+.split { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.split-img { position:relative; aspect-ratio:4/5; overflow:hidden; border:1px solid var(--line); }
+.split-img img { width:100%; height:100%; object-fit:cover; }
+.split-img .floating { position:absolute; bottom:24px; right:24px; background:var(--panel); border:1px solid var(--gold); padding:26px 30px; max-width:230px; }
+.split-img .floating b { display:block; font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; color:var(--gold-soft); }
+.split-img .floating span { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.split-text h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,4.4vw,54px); font-weight:500; line-height:1.05; margin:16px 0 22px; }
+.split-text h2 em { font-style:italic; color:var(--gold-soft); }
+.split-text p { color:#cfcdc6; line-height:1.85; font-size:16px; margin-bottom:18px; }
+.tick-list { margin:22px 0 32px; display:flex; flex-direction:column; gap:12px; }
+.tick-list div { display:flex; gap:14px; font-size:15px; color:#d6d3ca; }
+.tick-list div::before { content:'—'; color:var(--gold); font-weight:600; flex-shrink:0; }
+
+/* TESTIMONIALS */
+.testi { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.testi > div { background:var(--panel); border:1px solid var(--line); padding:38px 34px; transition:border-color .4s,transform .4s; }
+.testi > div:hover { border-color:#3a3a44; transform:translateY(-4px); }
+.stars { color:var(--gold); letter-spacing:4px; font-size:14px; margin-bottom:20px; }
+.testi p { font-size:15px; line-height:1.8; color:#d6d3ca; margin-bottom:24px; font-style:italic; }
+.testi b { display:block; font-weight:500; font-size:14px; }
+.testi span { font-size:12px; color:var(--muted); }
+
+/* CTA */
+.cta { border:1px solid var(--gold); padding:80px 60px; display:flex; align-items:center; justify-content:space-between; gap:36px; flex-wrap:wrap; background:linear-gradient(120deg,rgba(200,162,76,.07),transparent 60%); }
+.cta h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(30px,4.5vw,52px); font-weight:500; line-height:1.05; }
+.cta h2 em { font-style:italic; color:var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">Luxe<span>Drive</span></a>
+  <div class="nav-links">
+    <a href="#collection">Collectie</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#concierge">Concierge</a>
+    <a href="03-admin-login.html" class="nav-cta">Admin</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Curated since 2026 · Nederland</div>
+    <h1>Niet zomaar<br>een auto.<br><em>Een statement.</em></h1>
+    <p>Een persoonlijk geselecteerde collectie van de meest begeerde hyper- en supercars ter wereld. Gekeurd, gedocumenteerd en klaar voor zijn volgende eigenaar.</p>
+    <div class="hero-actions">
+      <a href="#collection" class="btn-primary">Bekijk collectie</a>
+      <a href="#atelier" class="btn-ghost">De LuxeDrive ervaring</a>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <div class="hm"><b class="serif">6</b><span>In voorraad</span></div>
+    <div class="hm"><b class="serif">12M+</b><span>Collectiewaarde</span></div>
+    <div class="hm"><b class="serif">100%</b><span>Gekeurd</span></div>
+  </div>
+  <div class="scroll-line"></div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Bugatti <i>◆</i> Ferrari <i>◆</i> Lamborghini <i>◆</i> Koenigsegg <i>◆</i> Pagani <i>◆</i> McLaren <i>◆</i> Porsche <i>◆</i> Aston Martin <i>◆</i></span>
+    <span>Bugatti <i>◆</i> Ferrari <i>◆</i> Lamborghini <i>◆</i> Koenigsegg <i>◆</i> Pagani <i>◆</i> McLaren <i>◆</i> Porsche <i>◆</i> Aston Martin <i>◆</i></span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="section" style="padding-top:80px;padding-bottom:80px">
+  <div class="stats">
+    <div><b class="serif">6</b><span>Auto's beschikbaar</span></div>
+    <div><b class="serif">48u</b><span>Gem. levertijd documenten</span></div>
+    <div><b class="serif">210+</b><span>Inspectiepunten per auto</span></div>
+    <div><b class="serif">100%</b><span>Historie gedocumenteerd</span></div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section" style="padding-top:0">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Uitgelicht</div>
+      <h2>De <em>kroonjuweel</em> van deze maand</h2>
+    </div>
+  </div>
+  <a href="02-car-detail.html" class="feature-row" style="display:grid">
+    <div class="feature-img">
+      <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1600&auto=format&fit=crop" alt="Bugatti Chiron Super Sport">
+    </div>
+    <div class="feature-info">
+      <div class="eyebrow">Bugatti</div>
+      <h3 class="serif">Chiron Super Sport</h3>
+      <p>Het absolute toppunt van Franse ingenieurskunst. Een 8.0L quad-turbo W16 die 1600 pk levert, ingepakt in een carrosserie die kunst en snelheid verenigt. Eén van slechts enkele exemplaren in deze specificatie.</p>
+      <div class="feature-specs">
+        <div><b class="serif">1600 pk</b><span>Vermogen</span></div>
+        <div><b class="serif">2,4 s</b><span>0–100 km/u</span></div>
+        <div><b class="serif">440 km/u</b><span>Topsnelheid</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:24px">
+        <span class="serif" style="font-size:32px;font-weight:600;color:var(--gold-soft)">€ 3.850.000</span>
+        <span class="btn-ghost" style="padding:12px 26px">Bekijk dossier →</span>
+      </div>
+    </div>
+  </a>
+</section>
+
+<!-- COLLECTIE -->
+<section class="section" id="collection" style="padding-top:0">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">De collectie</div>
+      <h2>Beschikbaar <em>nu</em></h2>
+    </div>
+    <span style="font-size:13px;color:var(--muted)"><b style="color:var(--gold)">4</b> automobielen in voorraad</span>
+  </div>
+  <div class="filters">
+    <select><option>Alle merken</option><option>Bugatti</option><option>Ferrari</option><option>Lamborghini</option></select>
+    <select><option>Alle statussen</option><option>Beschikbaar</option><option>Verkocht</option></select>
+    <select><option>Alle prijzen</option><option>tot € 1,5M</option><option>€ 1,5M – 3M</option><option>€ 3M+</option></select>
+  </div>
+  <div class="grid">
+    <a href="02-car-detail.html" class="card">
+      <div class="card-img">
+        <span class="badge">Beschikbaar</span>
+        <img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=800&auto=format&fit=crop" alt="Ferrari SF90">
+      </div>
+      <div class="card-body">
+        <div class="card-make">Ferrari</div>
+        <div class="card-name serif">SF90 Stradale</div>
+        <div class="card-foot">
+          <span class="price serif">€ 625.000</span>
+          <span class="card-link">2024 · 1000 pk</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img">
+        <span class="badge">Beschikbaar</span>
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=800&auto=format&fit=crop" alt="Lamborghini Revuelto">
+      </div>
+      <div class="card-body">
+        <div class="card-make">Lamborghini</div>
+        <div class="card-name serif">Revuelto</div>
+        <div class="card-foot">
+          <span class="price serif">€ 540.000</span>
+          <span class="card-link">2024 · 1015 pk</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img">
+        <span class="badge sold">Verkocht</span>
+        <img src="https://images.unsplash.com/photo-1621135802920-133df287f89c?q=80&w=800&auto=format&fit=crop" alt="McLaren 765LT">
+      </div>
+      <div class="card-body">
+        <div class="card-make">McLaren</div>
+        <div class="card-name serif">765LT</div>
+        <div class="card-foot">
+          <span class="price serif">€ 415.000</span>
+          <span class="card-link">2022 · 765 pk</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img">
+        <span class="badge">Beschikbaar</span>
+        <img src="https://images.unsplash.com/photo-1635073908681-b4dfd1bca4a8?q=80&w=800&auto=format&fit=crop" alt="Koenigsegg Jesko">
+      </div>
+      <div class="card-body">
+        <div class="card-make">Koenigsegg</div>
+        <div class="card-name serif">Jesko Absolut</div>
+        <div class="card-foot">
+          <span class="price serif">€ 3.200.000</span>
+          <span class="card-link">2023 · 1600 pk</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img">
+        <span class="badge">Beschikbaar</span>
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800&auto=format&fit=crop" alt="Pagani Huayra">
+      </div>
+      <div class="card-body">
+        <div class="card-make">Pagani</div>
+        <div class="card-name serif">Huayra Roadster BC</div>
+        <div class="card-foot">
+          <span class="price serif">€ 3.500.000</span>
+          <span class="card-link">2021 · 802 pk</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img">
+        <span class="badge sold">Verkocht</span>
+        <img src="https://images.unsplash.com/photo-1571607388263-1044f9ea01dd?q=80&w=800&auto=format&fit=crop" alt="Lamborghini Huracan STO">
+      </div>
+      <div class="card-body">
+        <div class="card-make">Lamborghini</div>
+        <div class="card-name serif">Huracán STO</div>
+        <div class="card-foot">
+          <span class="price serif">€ 360.000</span>
+          <span class="card-link">2022 · 640 pk</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ATELIER -->
+<section class="section" id="atelier">
+  <div class="split">
+    <div class="split-img">
+      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1000&auto=format&fit=crop" alt="Atelier">
+      <div class="floating">
+        <b class="serif">210+</b>
+        <span>Inspectiepunten per auto</span>
+      </div>
+    </div>
+    <div class="split-text">
+      <div class="eyebrow">Het atelier</div>
+      <h2>Vakmanschap in <em>elke transactie</em></h2>
+      <p>LuxeDrive bemiddelt in de zeldzaamste automobielen ter wereld. Wij combineren een discrete, persoonlijke aanpak met volledige transparantie.</p>
+      <div class="tick-list">
+        <div>Onafhankelijke 210-punts technische keuring</div>
+        <div>Volledige historie en eigenaarsdossier</div>
+        <div>Discrete bemiddeling, wereldwijd transport</div>
+        <div>Persoonlijke adviseur per aankoop</div>
+      </div>
+      <a href="#concierge" class="btn-ghost">Hoe wij werken</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="padding-top:0">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Wat klanten zeggen</div>
+      <h2>Vertrouwd door <em>verzamelaars</em></h2>
+    </div>
+  </div>
+  <div class="testi">
+    <div>
+      <div class="stars">★★★★★</div>
+      <p>"Binnen twee weken stond mijn SF90 voor de deur, inclusief volledig dossier. Sneller en strakker dan elke officiële dealer."</p>
+      <b>T. van der Berg</b>
+      <span>Ferrari SF90 Stradale</span>
+    </div>
+    <div>
+      <div class="stars">★★★★★</div>
+      <p>"De keuring was grondiger dan ik ooit had gezien. Elk detail gedocumenteerd. Dit is hoe je auto's van dit kaliber hoort te verhandelen."</p>
+      <b>M. Janssen</b>
+      <span>Koenigsegg Jesko Absolut</span>
+    </div>
+    <div>
+      <div class="stars">★★★★★</div>
+      <p>"Discreet, professioneel en eerlijk over elke kras. Mijn Revuelto kwam exact zoals beloofd."</p>
+      <b>R. de Vries</b>
+      <span>Lamborghini Revuelto</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top:0">
+  <div class="cta">
+    <h2>Klaar voor jouw <em>volgende hoofdstuk?</em></h2>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <a href="#collection" class="btn-primary">Bekijk collectie</a>
+      <a href="mailto:info@luxedrive.nl" class="btn-ghost">Plan een gesprek</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <a href="#" class="logo">Luxe<span>Drive</span></a>
+      <p style="color:var(--muted);font-size:14px;max-width:240px;line-height:1.6;margin-top:14px">Exclusieve automobielen, met zorg geselecteerd.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Navigatie</h4>
+      <a href="#collection">Collectie</a>
+      <a href="#atelier">Het atelier</a>
+      <a href="#concierge">Concierge</a>
+      <a href="03-admin-login.html">Admin portaal</a>
+    </div>
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@luxedrive.nl">info@luxedrive.nl</a>
+      <a href="tel:+31612345678">+31 6 1234 5678</a>
+      <a href="#">Tilburg, Nederland</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 LuxeDrive — Marco &amp; Abasin · Praktijksimulatie Yonder</span>
+    <span>Next.js · Laravel · MySQL</span>
+  </div>
+</footer>
+
+</body>
+</html>

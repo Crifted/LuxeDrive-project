@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LuxeDrive — Admin Login</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+body { min-height:100vh; }
+.login-bg {
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(60% 60% at 50% 0%, rgba(200,162,76,.06), transparent),
+    radial-gradient(40% 40% at 80% 80%, rgba(200,162,76,.04), transparent);
+}
+.login-wrap { position:relative; z-index:1; padding:100px 20px; display:flex; justify-content:center; align-items:flex-start; }
+.login-card { width:100%; max-width:440px; background:var(--panel); border:1px solid var(--line); padding:52px 44px; }
+.field { margin-bottom:20px; }
+.hint { margin-top:26px; padding-top:22px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); line-height:1.9; }
+.hint code { color:var(--gold-soft); background:var(--panel-2); padding:2px 8px; font-size:11px; }
+</style>
+</head>
+<body>
+
+<div class="login-bg"></div>
+
+<nav>
+  <a href="01-homepage.html" class="logo">Luxe<span>Drive</span></a>
+  <div class="nav-links">
+    <a href="01-homepage.html">Collectie</a>
+    <a href="01-homepage.html#atelier">Atelier</a>
+    <a href="#">Concierge</a>
+    <a href="#" class="nav-cta">Admin</a>
+  </div>
+</nav>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="eyebrow">Beveiligde toegang</div>
+    <h2 class="serif" style="font-size:40px;font-weight:600;margin:12px 0 6px">Admin portaal</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:34px">Log in om de collectie te beheren.</p>
+
+    <div class="field">
+      <label>E-mailadres</label>
+      <input type="email" value="admin@luxedrive.nl" placeholder="admin@luxedrive.nl">
+    </div>
+    <div class="field">
+      <label>Wachtwoord</label>
+      <input type="password" value="luxedrive2026" placeholder="••••••••">
+    </div>
+
+    <a href="04-admin-dashboard.html" class="btn-primary" style="display:block;width:100%;text-align:center;margin-top:8px">Inloggen</a>
+
+    <div class="hint">
+      Standaard inloggegevens (uit seeder):<br>
+      E-mail <code>admin@luxedrive.nl</code><br>
+      Wachtwoord <code>luxedrive2026</code>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

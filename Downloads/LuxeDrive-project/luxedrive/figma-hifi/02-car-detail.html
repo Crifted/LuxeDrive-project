@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LuxeDrive — Bugatti Chiron Super Sport</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.hero-img { position:relative; aspect-ratio:16/8; max-height:72vh; overflow:hidden; background:#1a1a20; }
+.hero-img img { width:100%; height:100%; object-fit:cover; }
+.hero-img::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,var(--bg) 0%,transparent 50%); }
+
+.specs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:32px 0 44px; }
+.spec-cell { background:var(--panel); padding:26px 22px; }
+.spec-cell .k { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.spec-cell .v { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; }
+
+.extra-grid { display:grid; grid-template-columns:1fr 1fr; gap:70px; margin-top:70px; padding-top:60px; border-top:1px solid var(--line); }
+.detail-table { border:1px solid var(--line); }
+.detail-row { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--line); background:var(--panel); }
+.detail-row:last-child { border-bottom:none; }
+.detail-row .dk { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.detail-row .dv { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="01-homepage.html" class="logo">Luxe<span>Drive</span></a>
+  <div class="nav-links">
+    <a href="01-homepage.html">Collectie</a>
+    <a href="01-homepage.html#atelier">Atelier</a>
+    <a href="#">Concierge</a>
+    <a href="03-admin-login.html" class="nav-cta">Admin</a>
+  </div>
+</nav>
+
+<!-- HERO FOTO -->
+<div class="hero-img">
+  <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2400&auto=format&fit=crop" alt="Bugatti Chiron Super Sport">
+</div>
+
+<!-- DETAIL BODY -->
+<div class="section" style="margin-top:-100px;position:relative;z-index:2">
+
+  <a href="01-homepage.html" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">← Terug naar collectie</a>
+
+  <div class="eyebrow" style="margin-top:28px">Bugatti</div>
+  <h1 class="serif" style="font-size:clamp(42px,6vw,82px);font-weight:600;line-height:1;margin:10px 0 10px">Chiron Super Sport</h1>
+  <div class="serif" style="font-size:38px;color:var(--gold-soft);margin-bottom:8px">€ 3.850.000</div>
+
+  <!-- SPECS -->
+  <div class="specs-grid">
+    <div class="spec-cell"><div class="k">Bouwjaar</div><div class="v serif">2023</div></div>
+    <div class="spec-cell"><div class="k">Vermogen</div><div class="v serif">1600 pk</div></div>
+    <div class="spec-cell"><div class="k">0–100 km/u</div><div class="v serif">2,4 s</div></div>
+    <div class="spec-cell"><div class="k">Topsnelheid</div><div class="v serif">440 km/u</div></div>
+  </div>
+
+  <!-- BESCHRIJVING -->
+  <p style="font-size:17px;line-height:1.85;color:#cfcdc6;max-width:780px;margin-bottom:44px">
+    Het absolute toppunt van Franse ingenieurskunst. Een 8.0L quad-turbo W16 die 1600 pk levert, ingepakt in een carrosserie die kunst en snelheid verenigt. Eén van slechts enkele exemplaren in deze specificatie. De Chiron Super Sport combineert een verlengde carrosserie voor verbeterde aerodynamica met een motorvermogen dat zijn weerga niet kent. Titanium uitlaatsysteem, keramische remmen en een uitgebreide optielijst maken dit exemplaar werkelijk uniek.
+  </p>
+
+  <!-- STATUS + CTA -->
+  <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+    <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span>
+      Direct beschikbaar
+    </span>
+    <a href="mailto:info@luxedrive.nl" class="btn-primary">Interesse tonen</a>
+    <a href="01-homepage.html" class="btn-ghost">← Terug</a>
+  </div>
+
+  <!-- EXTRA DETAILS -->
+  <div class="extra-grid">
+    <div>
+      <div class="eyebrow" style="margin-bottom:16px">Over dit exemplaar</div>
+      <h2 class="serif" style="font-size:clamp(28px,4vw,44px);font-weight:500;line-height:1.1;margin-bottom:20px">
+        Zeldzamer dan<br><em style="color:var(--gold-soft)">zeldzaam</em>
+      </h2>
+      <p style="color:#cfcdc6;line-height:1.85;font-size:15px;margin-bottom:14px">Slechts 30 exemplaren van de Super Sport werden gebouwd. Dit is er één van — met volledige documentatie, laagste kilometerstand in zijn klasse en originele Bugatti-specificatie.</p>
+      <p style="color:var(--muted);line-height:1.85;font-size:14px">Volledig onafhankelijk gekeurd op 210 punten. Eigenaarsdossier beschikbaar na NDA-ondertekening.</p>
+    </div>
+    <div class="detail-table">
+      <div class="detail-row"><span class="dk">Aantal eigenaars</span><span class="dv serif">1</span></div>
+      <div class="detail-row"><span class="dk">Kilometerstand</span><span class="dv serif">2.840 km</span></div>
+      <div class="detail-row"><span class="dk">Kleur exterieur</span><span class="dv serif">Nocturne Black</span></div>
+      <div class="detail-row"><span class="dk">Kleur interieur</span><span class="dv serif">Creme / Carbon</span></div>
+      <div class="detail-row"><span class="dk">Transmissie</span><span class="dv serif">7-traps DSG</span></div>
+      <div class="detail-row"><span class="dk">Brandstof</span><span class="dv serif">Benzine</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <a href="01-homepage.html" class="logo">Luxe<span>Drive</span></a>
+      <p style="color:var(--muted);font-size:14px;max-width:240px;line-height:1.6;margin-top:14px">Exclusieve automobielen, met zorg geselecteerd.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Navigatie</h4>
+      <a href="01-homepage.html">Collectie</a>
+      <a href="03-admin-login.html">Admin portaal</a>
+    </div>
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@luxedrive.nl">info@luxedrive.nl</a>
+      <a href="#">+31 6 1234 5678</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 LuxeDrive — Marco &amp; Abasin · Praktijksimulatie Yonder</span>
+    <span>Next.js · Laravel · MySQL</span>
+  </div>
+</footer>
+
+</body>
+</html>
