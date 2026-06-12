@@ -2,98 +2,88 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LuxeDrive — Admin Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LO-FI — 04 Admin Dashboard</title>
+<link rel="stylesheet" href="_shared.css">
 <style>
-:root{--bg:#08080a;--panel:#0f0f13;--panel-2:#15151b;--line:#23232c;--gold:#c8a24c;--gold-soft:#e3c781;--text:#f4f1ea;--muted:#8a8a93;--red-soft:#c4413f}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
-.serif{font-family:'Cormorant Garamond',serif}
-.eyebrow{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:500}
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%}
+  .dash-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 36px; }
+  .dash-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: #ccc; border: 1.5px solid #ccc; margin-bottom: 32px; }
+  .dash-stat { background: #e8e8e8; padding: 22px 24px; }
+  table { width: 100%; border-collapse: collapse; border: 1.5px solid #ccc; }
+  thead { background: #d8d8d8; }
+  th { padding: 14px 16px; text-align: left; border-bottom: 1.5px solid #ccc; }
+  td { padding: 14px 16px; border-bottom: 1px solid #d8d8d8; vertical-align: middle; }
+  .th-line { height: 8px; background: #bbb; border-radius: 2px; }
+  .td-thumb { width: 64px; height: 40px; background: #ccc; border: 1px solid #bbb; position: relative; overflow: hidden; }
+  .td-thumb::before, .td-thumb::after { content:''; position: absolute; background: #bbb; }
+  .td-thumb::before { left:0; top:50%; width:100%; height:1px; transform:rotate(-15deg) scaleX(1.4); }
+  .td-thumb::after  { left:0; top:50%; width:100%; height:1px; transform:rotate(15deg) scaleX(1.4); }
+  .td-line { height: 10px; background: #d0d0d0; border-radius: 2px; }
+  .td-tag { display:inline-block; border:1.5px solid #aaa; padding:3px 10px; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#888; }
+  .td-tag.sold { border-color:#cc9999; color:#cc6666; }
+  .btn-row { display: flex; gap: 8px; justify-content: flex-end; }
+  .btn-xs { border: 1.5px solid #ccc; padding: 5px 12px; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #888; background: transparent; display: inline-block; }
+  .btn-xs-del { border-color: #ddaaaa; color: #cc6666; }
 
-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(8,8,10,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(14px);position:sticky;top:0;z-index:100}
-.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:.04em}
-.logo span{color:var(--gold)}
-.nav-links{display:flex;gap:34px;align-items:center}
-.nav-links a{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.nav-cta{border:1px solid var(--gold);color:var(--gold)!important;padding:9px 20px}
-.btn-primary{background:var(--gold);color:#08080a;padding:12px 26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;display:inline-block;cursor:pointer}
-.btn-ghost{border:1px solid var(--line);padding:12px 26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:inline-block;cursor:pointer}
-.btn-sm{border:1px solid var(--line);padding:7px 14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;display:inline-block}
-.btn-sm-del{border:1px solid rgba(196,65,63,.5);padding:7px 14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-soft);cursor:pointer;display:inline-block}
-
-/* TABLE */
-table{width:100%;border-collapse:collapse;border:1px solid var(--line)}
-thead tr{background:var(--panel-2)}
-th{text-align:left;padding:16px 18px;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500}
-td{padding:14px 18px;border-bottom:1px solid var(--line);font-size:14px;font-weight:300}
-tbody tr:last-child td{border-bottom:none}
-tbody tr:hover{background:var(--panel-2)}
-
-.tag-avail{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(95,194,138,.4);color:#5fc28a;display:inline-block}
-.tag-sold{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(196,65,63,.4);color:var(--red-soft);display:inline-block}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(4,4,6,.88);backdrop-filter:blur(8px);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px}
-.modal-card{background:var(--panel);border:1px solid var(--line);max-width:720px;width:100%;padding:44px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:0}
-.form-field{display:flex;flex-direction:column;gap:8px}
-.form-field.full{grid-column:1/-1}
-.form-field label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.form-field input,.form-field select,.form-field textarea{background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;font-family:'Inter',sans-serif;font-size:14px;width:100%}
-.form-field textarea{min-height:90px;resize:vertical}
+  /* MODAL OVERLAY */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: flex; align-items: flex-start; justify-content: center; padding: 60px 20px; z-index: 100; }
+  .modal-card { background: #eee; border: 2px solid #ccc; max-width: 680px; width: 100%; padding: 40px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: 1/-1; }
+  .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="01-homepage.html" class="logo">Luxe<span>Drive</span></a>
-  <div class="nav-links">
-    <a href="01-homepage.html">Collectie</a>
-    <a href="#">Atelier</a>
-    <a href="#">Concierge</a>
-    <a href="#" class="nav-cta">Admin</a>
+<div class="page-banner">
+  04 — Admin Dashboard (CRUD)
+  <a href="03-admin-login.html">← 03 Admin Login</a>
+</div>
+
+<!-- NAV -->
+<nav class="wf-nav">
+  <div class="wf-logo"></div>
+  <div class="wf-nav-links">
+    <div class="wf-nav-link"></div>
+    <div class="wf-nav-link"></div>
+    <div class="wf-nav-link"></div>
+    <div class="wf-nav-cta"></div>
   </div>
 </nav>
 
-<!-- DASHBOARD -->
-<div style="padding:100px 48px 80px;max-width:1480px;margin:0 auto">
+<div class="wf-section">
 
-  <!-- Header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:44px">
+  <!-- DASHBOARD HEADER -->
+  <div class="dash-header">
     <div>
-      <div class="eyebrow">Beheer</div>
-      <h2 class="serif" style="font-size:50px;font-weight:600;margin-top:10px;line-height:1">Collectie beheren</h2>
+      <div class="wf-label" style="width:60px"></div>
+      <div class="wf-h2" style="width:240px;margin-top:8px"></div>
     </div>
-    <div style="display:flex;gap:14px;align-items:center">
-      <span style="font-size:13px;color:var(--muted)">Ingelogd als <b style="color:var(--gold-soft);font-weight:500">admin@luxedrive.nl</b></span>
-      <a href="#modal" class="btn-primary">+ Auto toevoegen</a>
-      <a href="03-admin-login.html" class="btn-ghost">Uitloggen</a>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div class="wf-p" style="width:180px;margin:0"></div>
+      <div class="wf-btn-solid" style="width:160px;height:38px;font-size:10px">+ Auto toevoegen</div>
+      <div class="wf-btn-outline" style="width:100px;height:38px;font-size:10px">Uitloggen</div>
     </div>
   </div>
 
-  <!-- Stats quick view -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:36px">
-    <div style="background:var(--panel);padding:24px 28px">
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Totaal</div>
-      <div class="serif" style="font-size:32px;font-weight:600">6</div>
+  <!-- STATS ROW -->
+  <div class="dash-stats">
+    <div class="dash-stat">
+      <div class="wf-label" style="width:50px;margin-bottom:8px"></div>
+      <div class="wf-h2" style="width:50px"></div>
     </div>
-    <div style="background:var(--panel);padding:24px 28px">
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Beschikbaar</div>
-      <div class="serif" style="font-size:32px;font-weight:600;color:#5fc28a">4</div>
+    <div class="dash-stat">
+      <div class="wf-label" style="width:80px;margin-bottom:8px"></div>
+      <div class="wf-h2" style="width:40px"></div>
     </div>
-    <div style="background:var(--panel);padding:24px 28px">
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Verkocht</div>
-      <div class="serif" style="font-size:32px;font-weight:600;color:var(--red-soft)">2</div>
+    <div class="dash-stat">
+      <div class="wf-label" style="width:65px;margin-bottom:8px"></div>
+      <div class="wf-h2" style="width:35px"></div>
     </div>
-    <div style="background:var(--panel);padding:24px 28px">
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Totale waarde</div>
-      <div class="serif" style="font-size:32px;font-weight:600;color:var(--gold-soft)">€ 12,3M</div>
+    <div class="dash-stat">
+      <div class="wf-label" style="width:90px;margin-bottom:8px"></div>
+      <div class="wf-h2" style="width:100px"></div>
     </div>
   </div>
 
@@ -101,160 +91,131 @@ tbody tr:hover{background:var(--panel-2)}
   <table>
     <thead>
       <tr>
-        <th style="width:80px"></th>
-        <th>Auto</th>
-        <th>Jaar</th>
-        <th>Prijs</th>
-        <th>Vermogen</th>
-        <th>Status</th>
-        <th style="text-align:right">Acties</th>
+        <th style="width:80px"><div class="th-line" style="width:0"></div></th>
+        <th><div class="th-line" style="width:36px"></div></th>
+        <th><div class="th-line" style="width:28px"></div></th>
+        <th><div class="th-line" style="width:30px"></div></th>
+        <th><div class="th-line" style="width:60px"></div></th>
+        <th><div class="th-line" style="width:45px"></div></th>
+        <th style="text-align:right"><div class="th-line" style="width:0;margin-left:auto"></div></th>
       </tr>
     </thead>
     <tbody>
+      <!-- 6 rijen -->
       <tr>
-        <td><img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=200&auto=format&fit=crop" alt="" style="width:72px;height:44px;object-fit:cover;border:1px solid var(--line)"></td>
-        <td><b style="font-weight:500">Bugatti</b> Chiron Super Sport</td>
-        <td>2023</td>
-        <td style="font-family:'Cormorant Garamond',serif;font-size:16px">€ 3.850.000</td>
-        <td>1600 pk</td>
-        <td><span class="tag-avail">Beschikbaar</span></td>
-        <td style="text-align:right">
-          <span class="btn-sm" style="margin-right:6px">Bewerk</span>
-          <span class="btn-sm-del">Verwijder</span>
-        </td>
+        <td><div class="td-thumb"></div></td>
+        <td><div class="td-line" style="width:80%"></div></td>
+        <td><div class="td-line" style="width:35px"></div></td>
+        <td><div class="td-line" style="width:80px"></div></td>
+        <td><div class="td-line" style="width:55px"></div></td>
+        <td><span class="td-tag">Beschikbaar</span></td>
+        <td><div class="btn-row"><span class="btn-xs">Bewerk</span><span class="btn-xs btn-xs-del">Verwijder</span></div></td>
       </tr>
       <tr>
-        <td><img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=200&auto=format&fit=crop" alt="" style="width:72px;height:44px;object-fit:cover;border:1px solid var(--line)"></td>
-        <td><b style="font-weight:500">Ferrari</b> SF90 Stradale</td>
-        <td>2024</td>
-        <td style="font-family:'Cormorant Garamond',serif;font-size:16px">€ 625.000</td>
-        <td>1000 pk</td>
-        <td><span class="tag-avail">Beschikbaar</span></td>
-        <td style="text-align:right">
-          <span class="btn-sm" style="margin-right:6px">Bewerk</span>
-          <span class="btn-sm-del">Verwijder</span>
-        </td>
+        <td><div class="td-thumb"></div></td>
+        <td><div class="td-line" style="width:70%"></div></td>
+        <td><div class="td-line" style="width:35px"></div></td>
+        <td><div class="td-line" style="width:70px"></div></td>
+        <td><div class="td-line" style="width:55px"></div></td>
+        <td><span class="td-tag">Beschikbaar</span></td>
+        <td><div class="btn-row"><span class="btn-xs">Bewerk</span><span class="btn-xs btn-xs-del">Verwijder</span></div></td>
       </tr>
       <tr>
-        <td><img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=200&auto=format&fit=crop" alt="" style="width:72px;height:44px;object-fit:cover;border:1px solid var(--line)"></td>
-        <td><b style="font-weight:500">Lamborghini</b> Revuelto</td>
-        <td>2024</td>
-        <td style="font-family:'Cormorant Garamond',serif;font-size:16px">€ 540.000</td>
-        <td>1015 pk</td>
-        <td><span class="tag-avail">Beschikbaar</span></td>
-        <td style="text-align:right">
-          <span class="btn-sm" style="margin-right:6px">Bewerk</span>
-          <span class="btn-sm-del">Verwijder</span>
-        </td>
+        <td><div class="td-thumb"></div></td>
+        <td><div class="td-line" style="width:75%"></div></td>
+        <td><div class="td-line" style="width:35px"></div></td>
+        <td><div class="td-line" style="width:75px"></div></td>
+        <td><div class="td-line" style="width:55px"></div></td>
+        <td><span class="td-tag sold">Verkocht</span></td>
+        <td><div class="btn-row"><span class="btn-xs">Bewerk</span><span class="btn-xs btn-xs-del">Verwijder</span></div></td>
       </tr>
       <tr>
-        <td><img src="https://images.unsplash.com/photo-1621135802920-133df287f89c?q=80&w=200&auto=format&fit=crop" alt="" style="width:72px;height:44px;object-fit:cover;border:1px solid var(--line)"></td>
-        <td><b style="font-weight:500">McLaren</b> 765LT</td>
-        <td>2022</td>
-        <td style="font-family:'Cormorant Garamond',serif;font-size:16px">€ 415.000</td>
-        <td>765 pk</td>
-        <td><span class="tag-sold">Verkocht</span></td>
-        <td style="text-align:right">
-          <span class="btn-sm" style="margin-right:6px">Bewerk</span>
-          <span class="btn-sm-del">Verwijder</span>
-        </td>
+        <td><div class="td-thumb"></div></td>
+        <td><div class="td-line" style="width:85%"></div></td>
+        <td><div class="td-line" style="width:35px"></div></td>
+        <td><div class="td-line" style="width:90px"></div></td>
+        <td><div class="td-line" style="width:55px"></div></td>
+        <td><span class="td-tag">Beschikbaar</span></td>
+        <td><div class="btn-row"><span class="btn-xs">Bewerk</span><span class="btn-xs btn-xs-del">Verwijder</span></div></td>
       </tr>
       <tr>
-        <td><img src="https://images.unsplash.com/photo-1635073908681-b4dfd1bca4a8?q=80&w=200&auto=format&fit=crop" alt="" style="width:72px;height:44px;object-fit:cover;border:1px solid var(--line)"></td>
-        <td><b style="font-weight:500">Koenigsegg</b> Jesko Absolut</td>
-        <td>2023</td>
-        <td style="font-family:'Cormorant Garamond',serif;font-size:16px">€ 3.200.000</td>
-        <td>1600 pk</td>
-        <td><span class="tag-avail">Beschikbaar</span></td>
-        <td style="text-align:right">
-          <span class="btn-sm" style="margin-right:6px">Bewerk</span>
-          <span class="btn-sm-del">Verwijder</span>
-        </td>
+        <td><div class="td-thumb"></div></td>
+        <td><div class="td-line" style="width:65%"></div></td>
+        <td><div class="td-line" style="width:35px"></div></td>
+        <td><div class="td-line" style="width:85px"></div></td>
+        <td><div class="td-line" style="width:55px"></div></td>
+        <td><span class="td-tag">Beschikbaar</span></td>
+        <td><div class="btn-row"><span class="btn-xs">Bewerk</span><span class="btn-xs btn-xs-del">Verwijder</span></div></td>
       </tr>
       <tr>
-        <td><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=200&auto=format&fit=crop" alt="" style="width:72px;height:44px;object-fit:cover;border:1px solid var(--line)"></td>
-        <td><b style="font-weight:500">Pagani</b> Huayra Roadster BC</td>
-        <td>2021</td>
-        <td style="font-family:'Cormorant Garamond',serif;font-size:16px">€ 3.500.000</td>
-        <td>802 pk</td>
-        <td><span class="tag-avail">Beschikbaar</span></td>
-        <td style="text-align:right">
-          <span class="btn-sm" style="margin-right:6px">Bewerk</span>
-          <span class="btn-sm-del">Verwijder</span>
-        </td>
+        <td><div class="td-thumb"></div></td>
+        <td><div class="td-line" style="width:78%"></div></td>
+        <td><div class="td-line" style="width:35px"></div></td>
+        <td><div class="td-line" style="width:80px"></div></td>
+        <td><div class="td-line" style="width:55px"></div></td>
+        <td><span class="td-tag sold">Verkocht</span></td>
+        <td><div class="btn-row"><span class="btn-xs">Bewerk</span><span class="btn-xs btn-xs-del">Verwijder</span></div></td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- MODAL: Auto toevoegen/bewerken -->
-<div id="modal" class="modal-overlay" style="display:none">
+<!-- MODAL: Auto toevoegen (altijd zichtbaar als 2e staat van de pagina) -->
+<div style="height:60px;background:#f2f2f2;border-top:2px dashed #ccc;display:flex;align-items:center;justify-content:center">
+  <span style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aaa">↓ Modal: Auto toevoegen / bewerken</span>
+</div>
+
+<div class="modal-overlay" style="position:relative;background:#ddd;padding:40px 20px;inset:auto">
   <div class="modal-card">
-    <h3 class="serif" style="font-size:36px;font-weight:600;margin-bottom:30px">Auto toevoegen</h3>
+    <div class="wf-h2" style="width:220px;margin-bottom:28px"></div>
     <div class="form-grid">
       <div class="form-field">
-        <label>Merk</label>
-        <input type="text" placeholder="Ferrari">
+        <div class="wf-field-label">Merk</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>Model</label>
-        <input type="text" placeholder="SF90 Stradale">
+        <div class="wf-field-label">Model</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>Bouwjaar</label>
-        <input type="number" placeholder="2024">
+        <div class="wf-field-label">Bouwjaar</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>Prijs (€)</label>
-        <input type="number" placeholder="625000">
+        <div class="wf-field-label">Prijs (€)</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>Vermogen</label>
-        <input type="text" placeholder="1000 pk">
+        <div class="wf-field-label">Vermogen</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>0–100 km/u</label>
-        <input type="text" placeholder="2,5 s">
+        <div class="wf-field-label">0–100 km/u</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>Topsnelheid</label>
-        <input type="text" placeholder="340 km/u">
+        <div class="wf-field-label">Topsnelheid</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field">
-        <label>Status</label>
-        <select>
-          <option value="available">Beschikbaar</option>
-          <option value="sold">Verkocht</option>
-        </select>
+        <div class="wf-field-label">Status</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field full">
-        <label>Afbeelding URL</label>
-        <input type="text" placeholder="https://...">
+        <div class="wf-field-label">Afbeelding URL</div>
+        <div class="wf-input"></div>
       </div>
       <div class="form-field full">
-        <label>Omschrijving</label>
-        <textarea placeholder="Korte, exclusieve omschrijving..."></textarea>
+        <div class="wf-field-label">Omschrijving</div>
+        <div class="wf-textarea"></div>
       </div>
     </div>
-    <div style="display:flex;gap:14px;justify-content:flex-end;margin-top:30px">
-      <button class="btn-ghost" onclick="document.getElementById('modal').style.display='none'">Annuleren</button>
-      <button class="btn-primary">Opslaan</button>
+    <div class="modal-footer">
+      <div class="wf-btn-outline" style="width:120px;height:38px">Annuleren</div>
+      <div class="wf-btn-solid" style="width:100px;height:38px">Opslaan</div>
     </div>
   </div>
 </div>
-
-<script>
-  // Toon modal als je op "+ Auto toevoegen" klikt
-  document.querySelector('.btn-primary').addEventListener('click', function(e){
-    if(this.textContent.includes('toevoegen')){
-      document.getElementById('modal').style.display='flex';
-      e.preventDefault();
-    }
-  });
-  document.getElementById('modal').addEventListener('click', function(e){
-    if(e.target === this) this.style.display='none';
-  });
-</script>
 
 </body>
 </html>
